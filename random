@@ -1,0 +1,10 @@
+/* {
+    "compilerOptions": {
+        "target": "ES6",
+        "strict": false,
+        "esModuleInterop": true
+    }
+} 
+
+ts.config.json
+*/
