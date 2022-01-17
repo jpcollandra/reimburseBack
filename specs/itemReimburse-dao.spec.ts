@@ -54,10 +54,10 @@ describe('ItemReimburse Spec Test', () => {
         expect(item.itemName).toBe("test");
     })
 
-    it('should delete item', async () => {
+     it('should delete item', async () => {
         const response = await itemReimburseDao.deleteItemReimburseById(testID);
         expect(response.id).toBeNull
     })
-
+ 
 
 });
