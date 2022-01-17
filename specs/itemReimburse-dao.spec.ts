@@ -13,7 +13,8 @@ describe('ItemReimburse Spec Test', () => {
             itemPrice: 1,
             itemQuantity: 1,
             itemDescription: "test",
-            status: "test"
+            status: "test",
+            username: "test"
         });
         expect(item.itemName).toBe("test");
         testID = item.id
@@ -47,7 +48,8 @@ describe('ItemReimburse Spec Test', () => {
             itemPrice: 1,
             itemQuantity: 1,
             itemDescription: "test",
-            status: "test"
+            status: "test",
+            username: "test"
         });
         expect(item.itemName).toBe("test");
     })

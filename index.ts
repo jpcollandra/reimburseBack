@@ -31,20 +31,5 @@ app.get('/employees', async (req, res) => {
     res.send(employees);
 })
 
-/* app.delete('/employees/:id', async (req, res) => {
-    try {
-        await EmployeeDaoAzure.deleteEmployeeById(req.params.id)
-        res.send("Deleted Successfully")
-        res.status(205)
-    } catch (error) {
-        if({instanceof : ResourceNotFoundError}){
-            res.status(404)
-            res.send("No Such Client Exists")
-        }
-            else{
-                res.status(500)
-            }
-        }
-    }) */
 
 app.listen(3000,()=>console.log("Application Started"));

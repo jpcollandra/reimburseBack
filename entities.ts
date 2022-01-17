@@ -5,6 +5,7 @@ export interface itemReimbursement {
     itemQuantity:number
     itemDescription:string
     status:string
+    username:string
 }
 
 export interface Employee {
