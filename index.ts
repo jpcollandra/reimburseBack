@@ -6,6 +6,9 @@ import { ItemReimburseDaoAzure, ItemReimburseDao } from './daos/itemReimburse-da
 import { Employee, itemReimbursement } from './entities';
 import errorHandler, {ResourceNotFoundError} from './error-handles';
 import { Item } from '@azure/cosmos';
+import * as winston from 'winston';
+import * as expressWinston from 'express-winston';
+
 
 const app = express();
 app.use(express.json());
@@ -38,19 +41,27 @@ app.get('/items', async(req,res)=>{
     res.send(items);
 })
 
-app.get('items/:status', async(req,res)=>{
-    const status:string = req.params.status;
-    const items: itemReimbursement[] = await itemReimburseDao.getAllItemReimburseByStatus(status);
+app.get('/items/status/:status', async(req,res)=>{
+    try{
+        const status:string = req.params.status;
+        const items: itemReimbursement[] = await itemReimburseDao.getAllItemReimburseByStatus(status);
+        res.send(items);
+    }
+    catch(error){
+        res.send("Unable to get items by status")
+    }
+})
+
+app.get('/items/username/:username', async (req, res) => {
+    const username: string = req.params.username;
+    const items: itemReimbursement[] = await itemReimburseDao.getAllItemReimburseByUsername(username);
     res.send(items);
 })
 
-app.get('/items/:username', async (req, res) => {
-    const username: string = req.params.username;
-    const employee: Employee = await employeeDao.getEmployeeByUsername(username);
-    if(!employee){
-        res.send("Access Denied")
-    }
-    res.send(employee);
+app.get('items/:id', async (req, res) => {
+    const id: string = req.params.id;
+    const item: itemReimbursement = await itemReimburseDao.getItemReimburseById(id);
+    res.send(item); 
 })
 
 app.patch('/items'), async (req,res)=>{
@@ -58,5 +69,20 @@ app.patch('/items'), async (req,res)=>{
     const item: itemReimbursement = await itemReimburseDao.updateItemReimburse(body);
     res.send(item);
 }
+
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  ),
+  meta: true, // optional: control whether you want to log the meta data about the request (default to true)
+  msg: "HTTP {{req.method}} {{req.url}}", // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
+  expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
+  colorize: false, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
+  ignoreRoute: function (req, res) { return false; } // optional: allows to skip some log messages based on request and/or response
+}));
 
 app.listen(3000,()=>console.log("Application Started"));

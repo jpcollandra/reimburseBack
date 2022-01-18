@@ -32,7 +32,7 @@ describe('ItemReimburse Spec Test', () => {
     })
 
     it('should get item by status', async () => {
-        const items: itemReimbursement[] = await itemReimburseDao.getAllItemReimburseByStatus("test");
+        const items: itemReimbursement[] = await itemReimburseDao.getAllItemReimburseByStatus("pending");
         expect(items.length).toBeGreaterThanOrEqual(1);
     })
 
