@@ -4,10 +4,13 @@ import { LoginService, LoginServiceImpl } from './services/login-service';
 import {EmployeeDaoAzure, EmployeeDAO} from './daos/login-dao';
 import { ItemReimburseDaoAzure, ItemReimburseDao } from './daos/itemReimburse-dao';
 import { Employee, itemReimbursement } from './entities';
+import { ItemReimburseService } from './services/item-service';
+import { ItemReimburseImpl } from './services/item-service-impl';
 import errorHandler, {ResourceNotFoundError} from './error-handles';
 import { Item } from '@azure/cosmos';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
+import { request } from 'http';
 
 
 const app = express();
@@ -17,7 +20,11 @@ app.use(cors())
 const employeeDao:EmployeeDAO = new EmployeeDaoAzure();
 const loginService: LoginService = new LoginServiceImpl(employeeDao);
 const itemReimburseDao: ItemReimburseDao = new ItemReimburseDaoAzure();
+const itemReimburseService: ItemReimburseService = new ItemReimburseImpl( itemReimburseDao, employeeDao);
 
+app.get('/', async (req, res) => {
+    res.send('Hello!');
+})
 
 app.patch('/login', async (req,res)=>{
     try {
@@ -36,9 +43,24 @@ app.get('/employees', async (req, res) => {
     res.send(employees);
 })
 
+app.post('/employees', async (req, res) => {
+    const employee: Employee = await employeeDao.createEmployee(req.body);
+    res.send(employee);
+})
+
 app.get('/items', async(req,res)=>{
     const items: itemReimbursement[] = await itemReimburseDao.getAllItemReimburse();
     res.send(items);
+})
+
+app.post('/items', async (req,res)=>{
+    try {
+        const body: itemReimbursement = req.body;
+        const item: itemReimbursement = await itemReimburseService.registerItemReimburse(body);
+        res.send(item);
+    } catch (error) {
+        res.send(error);
+    }
 })
 
 app.get('/items/status/:status', async(req,res)=>{
@@ -58,17 +80,26 @@ app.get('/items/username/:username', async (req, res) => {
     res.send(items);
 })
 
-app.get('items/:id', async (req, res) => {
+app.get('/items/:id', async (req, res) => {
     const id: string = req.params.id;
     const item: itemReimbursement = await itemReimburseDao.getItemReimburseById(id);
     res.send(item); 
 })
-
-app.patch('/items'), async (req,res)=>{
-    const body: itemReimbursement = req.body;
-    const item: itemReimbursement = await itemReimburseDao.updateItemReimburse(body);
+/* 
+app.patch('/items/:id', async (req,res)=>{
+    const {id} = req.params;
+    const body: {status:string} = req.body;
+    const item: itemReimbursement = await itemReimburseService.updateItemReimburse(id, body.status);
     res.send(item);
-}
+})
+  */
+
+app.delete('/employees/:id', async (req, res) => {
+    const id: string = req.params.id;
+    const employee: Employee = await employeeDao.deleteEmployeeById(id);
+    res.send(employee);
+})
+
 
 app.use(expressWinston.logger({
   transports: [
