@@ -85,14 +85,28 @@ app.get('/items/:id', async (req, res) => {
     const item: itemReimbursement = await itemReimburseDao.getItemReimburseById(id);
     res.send(item); 
 })
-/* 
-app.patch('/items/:id', async (req,res)=>{
-    const {id} = req.params;
-    const body: {status:string} = req.body;
-    const item: itemReimbursement = await itemReimburseService.updateItemReimburse(id, body.status);
-    res.send(item);
-})
-  */
+
+app.patch('/items/:id/approve', async (req,res)=>{
+    try {
+        const id: string = req.params.id;
+        const item: itemReimbursement = await itemReimburseService.approveItemReimburse(id);
+        res.send(item);
+    } catch (error) {
+        res.send(error);
+    }
+ }
+) 
+
+app.patch('/items/:id/deny', async (req,res)=>{
+    try {
+        const id: string = req.params.id;
+        const item: itemReimbursement = await itemReimburseService.denyItemReimburse(id);
+        res.send(item);
+    } catch (error) {
+        res.send(error);
+    }
+ }
+) 
 
 app.delete('/employees/:id', async (req, res) => {
     const id: string = req.params.id;

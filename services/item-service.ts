@@ -1,6 +1,7 @@
 import { itemReimbursement} from "../entities";
 
 export interface ItemReimburseService{
+    [x: string]: any;
     
     retrieveAllItemReimburse(): Promise<itemReimbursement[]>
 

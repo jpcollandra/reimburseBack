@@ -29,4 +29,17 @@ export class ItemReimburseImpl implements ItemReimburseService{
         return this.itemReimburseDao.updateItemReimburse(itemReimburse);
     }
 
+    async approveItemReimburse(id: string): Promise<itemReimbursement>{
+        const itemReimburse = await this.itemReimburseDao.getItemReimburseById(id);
+        itemReimburse.status = "Approved";
+        return this.itemReimburseDao.updateItemReimburse(itemReimburse);
+    } 
+
+    async denyItemReimburse(id: string): Promise<itemReimbursement>{
+        const itemReimburse = await this.itemReimburseDao.getItemReimburseById(id);
+        itemReimburse.status = "Denied";
+        return this.itemReimburseDao.updateItemReimburse(itemReimburse);
+    }
+
+
 }

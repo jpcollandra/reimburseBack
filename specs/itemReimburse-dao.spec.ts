@@ -39,20 +39,22 @@ describe('ItemReimburse Spec Test', () => {
     it('should get item by username', async () => {
         const items: itemReimbursement[] = await itemReimburseDao.getAllItemReimburseByUsername("test");
         expect(items.length).toBeDefined
-    })
+    }) 
 
-/*     it('should update item', async () => {
+   it('should update item', async () => {
         const item: itemReimbursement = await itemReimburseDao.updateItemReimburse({
             id: testID,
-            itemName: "test",
+            itemName: "random",
             itemPrice: 1,
             itemQuantity: 1,
             itemDescription: "test",
             status: "test",
             username: "test"
         });
-        expect(item.itemName).toBe("test");
+        expect(item.itemName).toBe("random");
     })
+
+    /*  
 
       it('should delete item', async () => {
         const response = await itemReimburseDao.deleteItemReimburseById(testID);

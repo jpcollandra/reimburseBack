@@ -16,7 +16,8 @@ export interface ItemReimburseDao{
     
         //Update
         updateItemReimburse(itemReimburse: itemReimbursement): Promise<itemReimbursement>
-    
+        approveItemReimburse(itemReimburse: itemReimbursement): Promise<itemReimbursement>
+
         //Delete
         deleteItemReimburseById(id: string ): Promise<itemReimbursement>
     
@@ -92,6 +93,26 @@ export interface ItemReimburseDao{
             username} = response.resource;
         return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username}
         }
+    
+    async approveItemReimburse(itemReimburse: itemReimbursement): Promise<itemReimbursement> {
+        //only update status
+        const querySpec = {
+            query: `SELECT * FROM c WHERE c.status = '${itemReimburse.status}'`
+        };
+        const { resources } = await this.container.items.query<itemReimbursement>(querySpec).fetchAll();
+        if(!resources[0]){
+            throw new Error("ItemReimburse not found")
+        }
+        const response = await this.container.item(itemReimburse.id,itemReimburse.id).replace(itemReimburse)
+        const {  id,
+            itemName,
+            itemPrice,
+            itemQuantity,
+            itemDescription,
+            status,
+            username} = response.resource;
+        return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username}
+    }
 
     async deleteItemReimburseById(dId: string): Promise<itemReimbursement> {
         const itemReimburse = await this.getItemReimburseById(dId);
