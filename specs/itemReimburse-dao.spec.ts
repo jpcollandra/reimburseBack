@@ -14,7 +14,8 @@ describe('ItemReimburse Spec Test', () => {
             itemQuantity: 1,
             itemDescription: "test",
             status: "test",
-            username: "test"
+            username: "test",
+            comment: "test",
         });
         expect(item.itemName).toBe("test");
         testID = item.id
@@ -49,17 +50,17 @@ describe('ItemReimburse Spec Test', () => {
             itemQuantity: 1,
             itemDescription: "test",
             status: "test",
-            username: "test"
+            username: "test",
+            comment: "test",
         });
         expect(item.itemName).toBe("random");
     })
-
-    /*  
+ 
 
       it('should delete item', async () => {
         const response = await itemReimburseDao.deleteItemReimburseById(testID);
         expect(response.id).toBeNull
-    })  */
+    })  
  
 
 });
