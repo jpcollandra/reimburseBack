@@ -147,5 +147,5 @@ app.delete('/employees/:id', async (req, res) => {
     res.send(employee);
 })
 
-
-app.listen(3000,()=>console.log("Application Started"));
+const port = process.env.PORT ?? 3000;
+app.listen(port,()=>console.log("Application Started"));
