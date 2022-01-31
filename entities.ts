@@ -6,6 +6,7 @@ export interface itemReimbursement {
     itemDescription:string
     status:string
     username:string
+    comment:string
 }
 
 export interface Employee {

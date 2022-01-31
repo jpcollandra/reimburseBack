@@ -41,5 +41,23 @@ export class ItemReimburseImpl implements ItemReimburseService{
         return this.itemReimburseDao.updateItemReimburse(itemReimburse);
     }
 
+    async addACommentSeeMGMT(id: string): Promise<itemReimbursement>{
+        const itemReimburse = await this.itemReimburseDao.getItemReimburseById(id);
+        itemReimburse.comment = "See Management ASAP";
+        return this.itemReimburseDao.updateItemReimburse(itemReimburse);
+    }
+
+    async addACommentInApp(id: string): Promise<itemReimbursement>{
+        const itemReimburse = await this.itemReimburseDao.getItemReimburseById(id);
+        itemReimburse.comment = "Inappropriate Expense";
+        return this.itemReimburseDao.updateItemReimburse(itemReimburse);
+    }
+
+    async addACommentSeeEmp(id: string): Promise<itemReimbursement>{
+        const itemReimburse = await this.itemReimburseDao.getItemReimburseById(id);
+        itemReimburse.comment = "See Employee Handbook";
+        return this.itemReimburseDao.updateItemReimburse(itemReimburse);
+    }
+
 
 }

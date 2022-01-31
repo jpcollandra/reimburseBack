@@ -110,6 +110,37 @@ app.patch('/items/:id/deny', async (req,res)=>{
  }
 ) 
 
+app.patch('/items/:id/seeMGMT', async (req,res)=>{
+    try {
+        const id: string = req.params.id;
+        const item: itemReimbursement = await itemReimburseService.addACommentSeeMGMT(id);
+        res.send(item);
+    } catch (error) {
+        res.send(error);
+    }
+})
+
+app.patch('/items/:id/inApp', async (req,res)=>{
+    try {
+        const id: string = req.params.id;
+        const item: itemReimbursement = await itemReimburseService.addACommentInApp(id);
+        res.send(item);
+    } catch (error) {
+        res.send(error);
+    }
+})
+
+app.patch('/items/:id/seeEmp', async (req,res)=>{
+    try {
+        const id: string = req.params.id;
+        const item: itemReimbursement = await itemReimburseService.addACommentSeeEmp(id);
+        res.send(item);
+    } catch (error) {
+        res.send(error);
+    }
+})
+
+
 app.delete('/employees/:id', async (req, res) => {
     const id: string = req.params.id;
     const employee: Employee = await employeeDao.deleteEmployeeById(id);

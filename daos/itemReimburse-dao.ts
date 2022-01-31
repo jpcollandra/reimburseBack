@@ -39,8 +39,9 @@ export interface ItemReimburseDao{
             itemQuantity,
             itemDescription,
             status,
-            username} = response.resource;
-        return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username}
+            username,
+            comment} = response.resource;
+        return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username, comment}
         }
 
     async getItemReimburseById(id: string): Promise<itemReimbursement> {
@@ -90,8 +91,9 @@ export interface ItemReimburseDao{
             itemQuantity,
             itemDescription,
             status,
-            username} = response.resource;
-        return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username}
+            username,
+            comment} = response.resource;
+        return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username, comment}
         }
     
     async approveItemReimburse(itemReimburse: itemReimbursement): Promise<itemReimbursement> {
@@ -110,8 +112,9 @@ export interface ItemReimburseDao{
             itemQuantity,
             itemDescription,
             status,
-            username} = response.resource;
-        return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username}
+            username,
+            comment} = response.resource;
+        return {id, itemName, itemPrice, itemQuantity, itemDescription, status, username,comment}
     }
 
     async deleteItemReimburseById(dId: string): Promise<itemReimbursement> {
